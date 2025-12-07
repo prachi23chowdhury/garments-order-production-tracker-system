@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from "../../public/assest/thread.jpg";
+import { NavLink } from 'react-router';
 
 const Navbar = () => {
     return (
@@ -24,8 +25,8 @@ const Navbar = () => {
             {/* RIGHT SIDE (Login/Register) */}
             <div className="navbar-end hidden lg:flex gap-2">
        
-          <button><span class="box"> Login</span></button>
-          <button><span class="box"> Register</span></button>
+          <NavLink to="login"><span class="box">Login</span></NavLink>
+          <NavLink to="register"><span class="box">Register</span></NavLink>
                 
             </div>
 
