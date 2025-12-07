@@ -65,13 +65,15 @@
   transition: .3s transform linear, .3s height linear .5s;
 }
 
-button {
+/* button {
   color: black;
   text-decoration: none;
   cursor: pointer;
   outline: none;
   border: none;
   background: transparent;
-}
+} */
 
+
+/* other button */
 
