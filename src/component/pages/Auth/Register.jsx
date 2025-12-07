@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import useAuth from '../../../hooks/UseAuth';
 import SideImage from '../../../../public/assest/illustration-tailor-sewing-clothes_207579-2039.avif';
 import { Link } from 'react-router';
+import SocialLogin from './SocialLogin';
 
 export default function Register() {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -91,7 +92,11 @@ export default function Register() {
                 Register </button>
             </div>
 
-            {/* Small note */}
+
+            {/* Google */}
+              <SocialLogin></SocialLogin>
+
+            {/* one line */}
        
             <p className="text-center text-sm text-gray-500">
                          All ready have Account ?

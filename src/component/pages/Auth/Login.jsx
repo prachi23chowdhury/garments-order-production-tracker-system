@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import useAuth from '../../../hooks/UseAuth';
 import SideImage from '../../../../public/assest/illustration-tailor-sewing-clothes_207579-2039.avif';
 import { Link } from 'react-router';
+import SocialLogin from './SocialLogin';
 
 export default function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -95,6 +96,11 @@ export default function Login() {
               </button>
             </div>
 
+
+              {/* Google */}
+              <SocialLogin></SocialLogin>
+
+              
             {/* Switch */}
             <p className="text-center text-sm text-gray-500">
               Don’t have an account?
