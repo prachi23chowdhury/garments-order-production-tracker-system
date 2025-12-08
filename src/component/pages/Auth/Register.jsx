@@ -10,6 +10,7 @@ export default function Register() {
   const { registerUser } = useAuth();
 
   const handleRegistration = (data) => {
+         console.log("after register", data.photo[0])
     registerUser(data.email, data.password)
       .then(result => {
         console.log(result.user);
@@ -37,10 +38,34 @@ export default function Register() {
           <h2 className="text-3xl font-extrabold text-center mb-6 text-gray-800">Create an Account</h2>
 
           <form onSubmit={handleSubmit(handleRegistration)} className="space-y-6">
+            <fieldset className="fieldset">
+
+ {/* NAme */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+              <input
+                id="name"
+                type="name"
+                {...register('name', { required: true })}
+                placeholder="Enter your name"
+                className="input w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              />
+              {errors.name?.type === 'required' && (
+                <p className="text-red-500 text-sm mt-1">Name is required</p>
+              )}
+            </div>
+{/* Image filed */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Photo</label>
+               <input type="file" className="file-input" {...register('photo', {required: true})} placeholder="Your Photo" />
+              {errors.photo?.type === 'required' && (
+                <p className="text-red-500 text-sm mt-1">Photo is required</p>
+              )}
+            </div>
 
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
               <input
                 id="email"
                 type="email"
@@ -91,7 +116,7 @@ export default function Register() {
     className="w-full py-3 rounded-lg bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-semibold shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-400">
                 Register </button>
             </div>
-
+              </fieldset>
 
             {/* Google */}
               <SocialLogin></SocialLogin>
