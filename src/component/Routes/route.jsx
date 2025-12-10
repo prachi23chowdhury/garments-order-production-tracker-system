@@ -4,6 +4,7 @@ import RootLayout from "../RootLayout/RootLayout";
 import AuthLayout from "../../layout/AuthLayout";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
+import AllProducts from "../pages/AllProducts";
 
 
 export const router = createBrowserRouter([
@@ -15,6 +16,10 @@ export const router = createBrowserRouter([
             index: true,
             Component: Home
         },
+        {
+          path: "all-products",
+          Component: AllProducts
+        }
     ]
   },
   {
