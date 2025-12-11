@@ -27,8 +27,8 @@ export default function OurProduct({ products: initialProducts = [] }) {
             {/* Image */}
             <div className="w-full h-52 rounded-xl overflow-hidden relative group">
               <img
-                src={p.productImage}
-                alt={p.productName}
+                src={p.product_image}
+                alt={p.product_name}
                 className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
               />
               <div className="absolute inset-0 bg-black/20 hidden group-hover:flex items-center justify-center gap-3 transition">
@@ -39,14 +39,14 @@ export default function OurProduct({ products: initialProducts = [] }) {
             </div>
 
             {/* Details */}
-            <h2 className="text-lg font-bold mt-3">{p.productName}</h2>
+            <h2 className="text-lg font-bold mt-3">{p.product_name}</h2>
             <p className="text-gray-500 text-sm mb-1">
-              Category: {p.productCategory}
+              Category: {p.category}
             </p>
 
             <div className="flex justify-between items-center mt-2">
               <span className="text-xl font-bold text-indigo-600">${p.price}</span>
-              <span className="text-sm text-gray-600">Stock: {p.availableQuantity}</span>
+              <span className="text-sm text-gray-600">Stock: {p.available_quantity}</span>
             </div>
 
             {/* Buttons */}

@@ -1,14 +1,29 @@
 import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router";
+import useAuth from "../../hooks/UseAuth";
 
 export default function AllProducts({ products: initialProducts = [] }) {
   const [products, setProducts] = useState(initialProducts);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  // 👉 Correct API (all products)
   useEffect(() => {
     fetch("http://localhost:3000/products")
-      .then((res) => res.json())
-      .then((data) => setProducts(data))
-      .catch((err) => console.error(err));
+      .then(res => res.json())
+      .then(data => setProducts(data))
+      .catch(err => console.error(err));
   }, []);
+
+  // 👉 Navigate to details page
+  const handleDetails = (id) => {
+    if (!user) {
+      navigate("/login", { state: { from: location.pathname } });
+      return;
+    }
+    navigate(`/all-products/${id}`);
+  };
 
   return (
     <div className="px-6 py-10 max-w-7xl mx-auto">
@@ -24,38 +39,33 @@ export default function AllProducts({ products: initialProducts = [] }) {
             shadow-md rounded-2xl p-5 hover:shadow-xl hover:-translate-y-1 
             transition-all duration-300 cursor-pointer"
           >
-            {/* Image */}
             <div className="w-full h-52 rounded-xl overflow-hidden relative group">
               <img
-                src={p.productImage}
-                alt={p.productName}
+                src={p.product_image}
+                alt={p.product_name}
                 className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
               />
-              <div className="absolute inset-0 bg-black/20 hidden group-hover:flex items-center justify-center gap-3 transition">
-                <button className="px-4 py-2 text-sm bg-white/90 hover:bg-white font-semibold rounded-lg shadow">
-                  Quick View
-                </button>
-              </div>
             </div>
 
-            {/* Details */}
-            <h2 className="text-lg font-bold mt-3">{p.productName}</h2>
+            <h2 className="text-lg font-bold mt-3">{p.product_name}</h2>
             <p className="text-gray-500 text-sm mb-1">
-              Category: {p.productCategory}
+              Category: {p.category}
             </p>
 
             <div className="flex justify-between items-center mt-2">
               <span className="text-xl font-bold text-indigo-600">${p.price}</span>
-              <span className="text-sm text-gray-600">Stock: {p.availableQuantity}</span>
+              <span className="text-sm text-gray-600">Stock: {p.available_quantity}</span>
             </div>
 
-            {/* Buttons */}
             <div className="mt-5 flex gap-3">
-              <button className="flex-1 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition">
-                 Details
+              <button
+                onClick={() => handleDetails(p.id)}
+                className="flex-1 py-2 bg-indigo-600 text-white font-medium rounded-lg text-center hover:bg-indigo-700 transition"
+              >
+                Details
               </button>
-              
             </div>
+
           </div>
         ))}
       </div>
