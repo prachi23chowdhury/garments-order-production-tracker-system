@@ -33,7 +33,7 @@ export default function BookingModal({ open, onClose, user, product }) {
       return;
     }
 
-    // Confirmation alert
+    // sweet alert
     const confirm = await Swal.fire({
       title: "Confirm Booking?",
       text: "Are you sure you want to submit this booking?",
@@ -143,7 +143,7 @@ export default function BookingModal({ open, onClose, user, product }) {
           className="w-full border rounded px-3 py-2 mb-3"
         ></textarea>
 
-        {/* Notes */}
+        {/* Add Note */}
         <label className="block mb-1">Additional Notes</label>
         <textarea
           value={notes}
