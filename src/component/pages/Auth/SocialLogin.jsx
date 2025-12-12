@@ -1,14 +1,38 @@
 import React from 'react';
 import useAuth from '../../../hooks/UseAuth';
+import { useLocation, useNavigate } from 'react-router';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 
 const SocialLogin = () => {
     const { signInWithGoogle} = useAuth();
-
+    const navigate = useNavigate();
+    const location = useLocation();
+    const axiosSecure = useAxiosSecure();
     const handleSignIn = () =>{
         signInWithGoogle()
-         .then(result => console.log(result.user))
-            .catch(error => console.log(error));
+         .then(result => {
+            console.log(result.user);
+            
+            // create user in the database
+           const userInfo ={
+            email: result.user.email,
+            displayName : result.user.displayName,
+             photoURL: result.user.photoURL
+           }
+
+             axiosSecure.post("/users", userInfo)
+            .then(res =>{
+             
+                console.log("user data has been stored", res.data)
+                navigate(location.state || "/");
+
+             
+            })
+         })
+            .catch(error => {
+                console.log(error)
+            });
     }
     return (
         <div className='text-center'>

@@ -6,12 +6,15 @@ import { Link } from 'react-router';
 import SocialLogin from './SocialLogin';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
+
 
 export default function Register() {
   const { register, handleSubmit,
      formState: { errors }
      } = useForm();
   const { registerUser, updateUserProfile } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   const handleRegistration = (data) => {
     // image file
@@ -29,10 +32,24 @@ export default function Register() {
           .then(res => {
             const photoURL = res.data.data.url;
 
+          //   // create user in the database
+          //  const userInfo ={
+          //   email: data.email,
+          //   displayName : data.name,
+          //    photoURL: photoURL,
+          //  }
+           
+          //   axiosSecure.post("/users", userInfo)
+          //   .then(res =>{
+          //     if(res.data.insertedId){
+          //       console.log("user created in the database")
+          //     }
+          //   })
+
             // update auth profile
             const userProfile = {
               displayName: data.name,
-              photoURL
+              photoURL: photoURL
             };
 
             updateUserProfile(userProfile)
@@ -42,12 +59,12 @@ export default function Register() {
                   name: data.name,
                   email: data.email,
                   photoURL,
-                  role: data.role,
+                  role: data.role || "user",
                   status: "pending"
                 };
 
                 // change the backend endpoint if needed
-                axios.post("/users", userInfo)
+                axiosSecure.post("/users", userInfo)
                   .then(() => {
                     // success alert
                     Swal.fire({
