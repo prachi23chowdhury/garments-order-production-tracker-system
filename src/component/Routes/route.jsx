@@ -7,7 +7,11 @@ import Register from "../pages/Auth/Register";
 import AllProducts from "../pages/AllProducts";
 import ProductsDetails from "../ProductsDetails";
 import BookingModal from "../BookingModal";
-
+import PrivateRoute from "../Routes/PrivateRoute"
+import DashboardLayout from "../../layout/DashboardLayout";
+import MyOrders from "../pages/Dashboard/MyOrders";
+import ManagerRoute from "./ManageRoute";
+import AddProduct from "../pages/Dashboard/Manager/AddProduct";
 
 
 export const router = createBrowserRouter([
@@ -28,7 +32,7 @@ export const router = createBrowserRouter([
           Component: ProductsDetails
         },
         {
-          path: "booking/:id",
+          path: "orders/:id",
           Component: BookingModal
         }
     ]
@@ -46,5 +50,21 @@ export const router = createBrowserRouter([
             Component: Register
         }
     ]
-  }
+  },
+  {
+    path:"dashboard",
+   element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
+   children:[
+    {
+      path: 'my-orders',
+      Component: MyOrders
+    },
+    {
+      path: "add-product",
+      element:<ManagerRoute><AddProduct></AddProduct></ManagerRoute>
+    }
+   ]
+  },
+
+
 ]);

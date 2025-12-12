@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 
 export default function Register() {
   const { register, handleSubmit,
-    //  formState: { errors }
+     formState: { errors }
      } = useForm();
   const { registerUser, updateUserProfile } = useAuth();
 
@@ -43,7 +43,7 @@ export default function Register() {
                   email: data.email,
                   photoURL,
                   role: data.role,
-                  status: "pending" // default status
+                  status: "pending"
                 };
 
                 // change the backend endpoint if needed
