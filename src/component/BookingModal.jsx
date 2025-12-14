@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router";
 import Swal from "sweetalert2";
 
 export default function BookingModal({ open, onClose, user, product }) {
@@ -11,6 +12,8 @@ export default function BookingModal({ open, onClose, user, product }) {
   const [contact, setContact] = useState("");
   const [address, setAddress] = useState("");
   const [notes, setNotes] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
   useEffect(() => {
     setQty(minQty);
@@ -28,12 +31,11 @@ export default function BookingModal({ open, onClose, user, product }) {
   };
 
   const handleSubmit = async () => {
-    if (!contact || !address) {
-      Swal.fire("Error", "Contact and Address are needed", "error");
+    if (!firstName || !lastName || !contact || !address) {
+      Swal.fire("Error", "First Name, Last Name, Contact and Address are required", "error");
       return;
     }
 
-    // sweet alert
     const confirm = await Swal.fire({
       title: "Confirm Booking?",
       text: "Are you sure you want to submit this booking?",
@@ -46,7 +48,9 @@ export default function BookingModal({ open, onClose, user, product }) {
     if (!confirm.isConfirmed) return;
 
     const bookingData = {
-     userEmail: user.email,
+      userEmail: user.email,
+      firstName,
+      lastName,
       product_name: product.product_name,
       price,
       quantity: qty,
@@ -92,18 +96,30 @@ export default function BookingModal({ open, onClose, user, product }) {
           className="w-full border rounded px-3 py-2 mb-3 bg-gray-100"
         />
 
+        {/* First & Last Name */}
+        <div className="grid grid-cols-2 gap-3 mb-3">
+          <div>
+            <label className="block mb-1">First Name</label>
+            <input
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              className="w-full border rounded px-3 py-2"
+            />
+          </div>
+          <div>
+            <label className="block mb-1">Last Name</label>
+            <input
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              className="w-full border rounded px-3 py-2"
+            />
+          </div>
+        </div>
+
         {/* Product Name */}
         <label className="block mb-1">Product</label>
         <input
           value={product.product_name}
-          readOnly
-          className="w-full border rounded px-3 py-2 mb-3 bg-gray-100"
-        />
-
-        {/* Price */}
-        <label className="block mb-1">Price (per unit)</label>
-        <input
-          value={product.price}
           readOnly
           className="w-full border rounded px-3 py-2 mb-3 bg-gray-100"
         />
@@ -119,13 +135,13 @@ export default function BookingModal({ open, onClose, user, product }) {
           className="w-full border rounded px-3 py-2 mb-3"
         />
 
-        {/* Total */}
-        <label className="block mb-1">Total Price</label>
-        <input
-          value={total}
-          readOnly
-          className="w-full border rounded px-3 py-2 mb-3 bg-gray-100"
-        />
+        {/* Price / Payment Info (Read-only) */}
+        <label className="block mb-1">Payment Info</label>
+        <div className="w-full border rounded px-3 py-2 mb-3 bg-gray-100 text-sm">
+          <p>Price per unit: ৳{price}</p>
+          <p>Quantity: {qty}</p>
+          <p className="font-semibold">Total: ৳{total}</p>
+        </div>
 
         {/* Contact */}
         <label className="block mb-1">Contact Number</label>
@@ -143,7 +159,7 @@ export default function BookingModal({ open, onClose, user, product }) {
           className="w-full border rounded px-3 py-2 mb-3"
         ></textarea>
 
-        {/* Add Note */}
+        {/* Notes */}
         <label className="block mb-1">Additional Notes</label>
         <textarea
           value={notes}
@@ -158,13 +174,15 @@ export default function BookingModal({ open, onClose, user, product }) {
           >
             Close
           </button>
-
+        <Link to={`/dashboard/payment/${product._id}`}>
+        
           <button
             onClick={handleSubmit}
             className="px-4 py-2 bg-blue-600 text-white rounded"
           >
             Submit
           </button>
+        </Link>
         </div>
 
       </div>

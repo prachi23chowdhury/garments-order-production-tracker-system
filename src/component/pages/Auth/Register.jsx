@@ -32,20 +32,6 @@ export default function Register() {
           .then(res => {
             const photoURL = res.data.data.url;
 
-          //   // create user in the database
-          //  const userInfo ={
-          //   email: data.email,
-          //   displayName : data.name,
-          //    photoURL: photoURL,
-          //  }
-           
-          //   axiosSecure.post("/users", userInfo)
-          //   .then(res =>{
-          //     if(res.data.insertedId){
-          //       console.log("user created in the database")
-          //     }
-          //   })
-
             // update auth profile
             const userProfile = {
               displayName: data.name,

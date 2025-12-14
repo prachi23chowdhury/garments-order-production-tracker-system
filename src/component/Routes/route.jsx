@@ -12,6 +12,7 @@ import DashboardLayout from "../../layout/DashboardLayout";
 import MyOrders from "../pages/Dashboard/MyOrders";
 import ManagerRoute from "./ManageRoute";
 import AddProduct from "../pages/Dashboard/Manager/AddProduct";
+import Payment from "../pages/Dashboard/Payment/Payment";
 
 
 export const router = createBrowserRouter([
@@ -59,12 +60,18 @@ export const router = createBrowserRouter([
       path: 'my-orders',
       Component: MyOrders
     },
+    // {
+    //   path: "add-product",
+    //   element:<ManagerRoute><AddProduct></AddProduct></ManagerRoute>
+    // }
     {
-      path: "add-product",
-      element:<ManagerRoute><AddProduct></AddProduct></ManagerRoute>
+      path: "payment/:productId",
+      Component: Payment
+
     }
    ]
   },
+  
 
 
 ]);

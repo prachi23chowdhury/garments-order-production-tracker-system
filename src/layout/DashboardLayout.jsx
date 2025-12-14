@@ -4,6 +4,7 @@ import React from 'react';
 import { Link, NavLink, Outlet } from 'react-router';
 import logoImg from '../../public/assest/thread.jpg';
 import { CiDeliveryTruck } from 'react-icons/ci';
+import { FaProductHunt } from 'react-icons/fa';
 
 
 const DashboardLayout = () => {
@@ -47,6 +48,10 @@ const DashboardLayout = () => {
                             <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="MyOrders" to="/dashboard/my-orders">
                                 <CiDeliveryTruck />
                                 <span className="is-drawer-close:hidden">My Orders</span>
+                            </NavLink>
+                            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="AddProduct" to="/dashboard/add-product">
+                                <FaProductHunt></FaProductHunt>
+                                <span className="is-drawer-close:hidden">AddProduct</span>
                             </NavLink>
                         </li>
                       
