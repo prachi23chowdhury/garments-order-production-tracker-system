@@ -13,6 +13,7 @@ import MyOrders from "../pages/Dashboard/MyOrders";
 import ManagerRoute from "./ManageRoute";
 import AddProduct from "../pages/Dashboard/Manager/AddProduct";
 import Payment from "../pages/Dashboard/Payment/Payment";
+import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
 
 
 export const router = createBrowserRouter([
@@ -65,8 +66,13 @@ export const router = createBrowserRouter([
     //   element:<ManagerRoute><AddProduct></AddProduct></ManagerRoute>
     // }
     {
-      path: "payment/:productId",
+      path: "payment/:id",
       Component: Payment
+
+    },
+    {
+      path: "payment-success",
+      Component: PaymentSuccess
 
     }
    ]

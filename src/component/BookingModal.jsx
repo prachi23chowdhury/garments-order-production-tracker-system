@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 export default function BookingModal({ open, onClose, user, product }) {
   const { price, available_quantity } = product;
 
-  const minQty = 15;
+  const minQty = 1000;
 
   const [qty, setQty] = useState(minQty);
   const [total, setTotal] = useState(price * minQty);
@@ -140,7 +140,7 @@ export default function BookingModal({ open, onClose, user, product }) {
         <div className="w-full border rounded px-3 py-2 mb-3 bg-gray-100 text-sm">
           <p>Price per unit: ৳{price}</p>
           <p>Quantity: {qty}</p>
-          <p className="font-semibold">Total: ৳{total}</p>
+          <p className="font-semibold">Total: USD {total}</p>
         </div>
 
         {/* Contact */}

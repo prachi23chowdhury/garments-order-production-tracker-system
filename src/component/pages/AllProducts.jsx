@@ -59,7 +59,7 @@ export default function AllProducts({ products: initialProducts = [] }) {
 
             <div className="mt-5 flex gap-3">
               <button
-                onClick={() => handleDetails(p.id)}
+                onClick={() => handleDetails(p._id)}
                 className="flex-1 py-2 bg-indigo-600 text-white font-medium rounded-lg text-center hover:bg-indigo-700 transition"
               >
                 Details

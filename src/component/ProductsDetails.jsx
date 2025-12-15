@@ -51,7 +51,6 @@ const ProductsDetails = () => {
     price,
     available_quantity,
     minOrder,
-    paymentOptions
   } = product;
 
   return (
@@ -79,12 +78,12 @@ const ProductsDetails = () => {
         <p><strong>Category:</strong> {category}</p>
 
         <p className="text-2xl font-bold text-purple-600">
-          Price: ৳{price}
+          Price: {price}
         </p>
 
         <p><strong>Available Quantity:</strong> {available_quantity}</p>
 
-      <p><strong>Minimum Order:</strong> {minOrder || 15} piece </p>
+      <p><strong>Minimum Order:</strong> {minOrder || 1000} piece </p>
 
 
         <p>

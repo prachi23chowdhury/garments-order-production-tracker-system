@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import useAuth from '../../../hooks/UseAuth';
 import { useState } from 'react';
+import { Link } from 'react-router';
 
 const MyOrders = () => {
     const { user } = useAuth();
@@ -38,6 +39,9 @@ const MyOrders = () => {
         alert(`View details for order ${orderId}`);
     };
 
+    
+     
+
     return (
         <div>
             <h2 className="text-2xl font-bold mb-4">My Orders ({orders.length})</h2>
@@ -61,8 +65,11 @@ const MyOrders = () => {
                                 <td>{order._id}</td>
                                 <td>{order.product_name}</td>
                                 <td>{order.quantity}</td>
-                                <td>{order.status}</td>
-                                <td>{order.payment_status}</td>
+                                <td><button className="btn btn-sm bg-lime-300 text-black">Paid</button>   
+                                </td>
+                                <td>
+                                    <Link to={`/order-track/${order.trackingId}`}> {order.trackingId}</Link>
+                                </td>
                                 <td className="flex gap-2">
                                     <button
                                         className="btn btn-sm btn-info"
