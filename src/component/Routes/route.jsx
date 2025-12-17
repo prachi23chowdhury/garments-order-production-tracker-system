@@ -15,6 +15,8 @@ import AddProduct from "../pages/Dashboard/Manager/AddProduct";
 import Payment from "../pages/Dashboard/Payment/Payment";
 import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
 import PaymentHistory from "../pages/Dashboard/Payment/PaymentHistory";
+import ContactUs from "../ContactUs";
+import AboutUs from "../AboutUs";
 
 
 export const router = createBrowserRouter([
@@ -37,6 +39,14 @@ export const router = createBrowserRouter([
         {
           path: "orders/:id",
           Component: BookingModal
+        },
+        {
+          path: "contact",
+          Component: ContactUs
+        },
+        {
+          path: "about",
+          Component: AboutUs
         }
     ]
   },

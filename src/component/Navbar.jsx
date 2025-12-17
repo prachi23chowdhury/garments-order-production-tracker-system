@@ -27,8 +27,8 @@ const Navbar = () => {
                 <ul className="menu menu-horizontal px-1 text-[16px] font-medium gap-5">
                     <li><Link to="/" className='font-bold text-xl text-gray-500 hover:text-blue-500'>Home</Link></li>
                     <li><Link to="all-products" className='font-bold text-xl text-gray-500 hover:text-blue-500'>All-Product</Link></li>
-                    <li><Link className='font-bold text-xl text-gray-500 hover:text-blue-500'>About Us</Link></li>
-                    <li><Link className='font-bold text-xl text-gray-500 hover:text-blue-500'>Contact</Link></li>
+                    <li><Link to="about" className='font-bold text-xl text-gray-500 hover:text-blue-500'>About Us</Link></li>
+                    <li><Link to="contact" className='font-bold text-xl text-gray-500 hover:text-blue-500'>Contact</Link></li>
                      {
     user && <>
     <li><Link to="/dashboard" className='font-bold text-xl text-gray-500 hover:text-blue-500'>DashBoard</Link></li>
@@ -66,8 +66,8 @@ const Navbar = () => {
 
                         <li><Link to="/" className='font-bold text-lg text-gray-600 hover:text-blue-500'>Home</Link></li>
                         <li><Link to="all-products" className='font-bold text-lg text-gray-600 hover:text-blue-500'>All-Product</Link></li>
-                        <li><Link className='font-bold text-lg text-gray-600 hover:text-blue-500'>About Us</Link></li>
-                        <li><Link className='font-bold text-lg text-gray-600 hover:text-blue-500'>Contact</Link></li>
+                        <li><Link to="about" className='font-bold text-lg text-gray-600 hover:text-blue-500'>About Us</Link></li>
+                        <li><Link to="contact" className='font-bold text-lg text-gray-600 hover:text-blue-500'>Contact</Link></li>
                     {
     user && <>
     <li><Link to="/dashboard" className='font-bold text-xl text-gray-500 hover:text-blue-500'>DashBoard</Link></li>
