@@ -14,6 +14,7 @@ import ManagerRoute from "./ManageRoute";
 import AddProduct from "../pages/Dashboard/Manager/AddProduct";
 import Payment from "../pages/Dashboard/Payment/Payment";
 import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
+import PaymentHistory from "../pages/Dashboard/Payment/PaymentHistory";
 
 
 export const router = createBrowserRouter([
@@ -69,6 +70,10 @@ export const router = createBrowserRouter([
       path: "payment/:id",
       Component: Payment
 
+    },
+    {
+      path:"payment-history",
+      Component: PaymentHistory
     },
     {
       path: "payment-success",
