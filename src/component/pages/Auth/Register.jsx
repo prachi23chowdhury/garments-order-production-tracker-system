@@ -21,7 +21,7 @@ export default function Register() {
     const profileImg = data.photo[0];
 
     registerUser(data.email, data.password)
-      .then(result => {
+      .then(() => {
         // upload image to imgbb
         const formData = new FormData();
         formData.append("image", profileImg);
