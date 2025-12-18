@@ -1,6 +1,6 @@
    import React from 'react';
-import { FaCreditCard, FaProductHunt, FaServicestack } from 'react-icons/fa';
-import { FaPerson, FaPersonArrowDownToLine } from 'react-icons/fa6';
+import { FaCreditCard, FaProductHunt, FaServicestack,  FaUsers } from 'react-icons/fa';
+import { FaPerson, } from 'react-icons/fa6';
 import { Link, NavLink, Outlet } from 'react-router';
 
 const DashboardLayout = () => {
@@ -56,6 +56,12 @@ const DashboardLayout = () => {
                     </NavLink>
                     </li>
                     
+                    <li>
+                     <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Users Management" to="/dashboard/users-management">
+                   <FaUsers/>
+                      <span className="is-drawer-close:hidden">Users Management</span>
+                    </NavLink>
+                    </li>`
                     <li>
                      <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Add Product" to="/dashboard/add-product">
                         <FaProductHunt></FaProductHunt>

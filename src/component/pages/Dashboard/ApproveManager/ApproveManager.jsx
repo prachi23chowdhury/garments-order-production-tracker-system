@@ -35,6 +35,22 @@ const ApproveManager = () => {
                 }
             })
     }
+    const handleView = (manager) => {
+  Swal.fire({
+    title: 'Manager Details',
+    html: `
+      <div style="text-align:left">
+        <p><b>Name:</b> ${manager.name}</p>
+        <p><b>Email:</b> ${manager.email}</p>
+        <p><b>Warehouse:</b> ${manager.warehouse}</p>
+        <p><b>Experience:</b> ${manager.experience}</p>
+        <p><b>Status:</b> ${manager.status}</p>
+      </div>
+    `,
+    confirmButtonText: 'Close'
+  });
+};
+
 
     const handleApproval = manager => {
         updateRiderStatus(manager, 'approved');
@@ -73,10 +89,11 @@ const ApproveManager = () => {
                                 </td>
                                 <td>{manager.experience}</td>
                                 <td>
-                                    <button
-                                         className='btn'>
-                                        <FaEye></FaEye>
-                                    </button>
+                                   <button
+                                    onClick={() => handleView(manager)}
+                                    className='btn'>
+                                    <FaEye /></button>
+
                                     <button
                                         onClick={() => handleApproval(manager)} className='btn'>
                                         <FaUserCheck />

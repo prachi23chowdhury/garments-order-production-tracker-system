@@ -19,6 +19,7 @@ import ContactUs from "../ContactUs";
 import AboutUs from "../AboutUs";
 import Manager from "../pages/Dashboard/Manager/Manager";
 import ApproveManager from "../pages/Dashboard/ApproveManager/ApproveManager";
+import UsersManagement from "../pages/Dashboard/UserManagment/UsersManagement";
 
 
 export const router = createBrowserRouter([
@@ -78,10 +79,10 @@ export const router = createBrowserRouter([
       path: 'my-orders',
       Component: MyOrders
     },
-    // {
-    //   path: "add-product",
-    //   element:<ManagerRoute><AddProduct></AddProduct></ManagerRoute>
-    // }
+    {
+      path: "add-product",
+      element:<ManagerRoute><AddProduct></AddProduct></ManagerRoute>
+    },
     {
       path: "payment/:id",
       Component: Payment
@@ -99,6 +100,11 @@ export const router = createBrowserRouter([
      {
       path: "approve-manager",
       Component: ApproveManager
+
+    },
+     {
+      path: "users-management",
+      Component: UsersManagement
 
     }
    ]
