@@ -18,6 +18,7 @@ import PaymentHistory from "../pages/Dashboard/Payment/PaymentHistory";
 import ContactUs from "../ContactUs";
 import AboutUs from "../AboutUs";
 import Manager from "../pages/Dashboard/Manager/Manager";
+import ApproveManager from "../pages/Dashboard/ApproveManager/ApproveManager";
 
 
 export const router = createBrowserRouter([
@@ -93,6 +94,11 @@ export const router = createBrowserRouter([
     {
       path: "payment-success",
       Component: PaymentSuccess
+
+    },
+     {
+      path: "approve-manager",
+      Component: ApproveManager
 
     }
    ]
