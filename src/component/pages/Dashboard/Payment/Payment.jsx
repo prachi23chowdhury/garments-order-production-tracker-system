@@ -55,7 +55,7 @@ const Payment = () => {
   if (isError || !product) {
     return (
       <div className="text-center mt-20 text-red-500 font-semibold">
-        Product not found 😢
+        Product not found
       </div>
     );
   }

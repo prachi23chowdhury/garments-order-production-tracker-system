@@ -1,14 +1,27 @@
+import { Navigate } from "react-router";
+import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../hooks/UseAuth";
-
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 export default function ManagerRoute({ children }) {
   const { user, loading } = useAuth();
-  console.log(user);
+  const axiosSecure = useAxiosSecure();
 
-  if (loading) return <p>Loading...</p>;
+  const { data: dbUser, isLoading } = useQuery({
+    queryKey: ["role", user?.email],
+    enabled: !!user?.email,
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/users/${user.email}/role`); // backend route for role
+      return res.data;
+    },
+  });
 
-  if (user?.role !== "manager") {
-    return <p>Access Denied</p>;
+  // 🔹 Wait for both auth & query to finish
+  if (loading || isLoading) return <p>Loading...</p>;
+
+  // 🔹 Only check backend role
+  if (!dbUser || dbUser.role?.toLowerCase() !== "manager") {
+    return <Navigate to="/forbidden" />;
   }
 
   return children;

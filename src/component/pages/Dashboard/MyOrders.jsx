@@ -1,60 +1,78 @@
 import { useQuery } from '@tanstack/react-query';
-import useAxiosSecure from '../../../hooks/useAxiosSecure';
-import useAuth from '../../../hooks/UseAuth';
-import { useState } from 'react';
+import React from 'react';
+import { FiEdit } from 'react-icons/fi';
+import { FaMagnifyingGlass, FaTrashCan } from 'react-icons/fa6';
+import Swal from 'sweetalert2';
 import { Link } from 'react-router';
+import useAuth from '../../../hooks/UseAuth';  
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const MyOrders = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
-    const [cancelingOrderId, setCancelingOrderId] = useState(null);
 
     const { data: orders = [], refetch } = useQuery({
         queryKey: ['my-orders', user?.email],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/orders?email=${user.email}`);
+            const res = await axiosSecure.get(`/orders?userEmail=${user.email}`);
             return res.data;
         }
-    });
+    })
 
-    const handleCancel = async (orderId) => {
-        const confirmCancel = window.confirm("Are you sure you want to cancel this order?");
-        if (!confirmCancel) return;
+    const handleParcelDelete = id => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.delete(`/orders/${id}`)
+                    .then(res => {
+                        if (res.data.deletedCount) {
+                            refetch();
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your order request has been deleted.",
+                                icon: "success"
+                            });
+                        }
+                    })
+            }
+        });
+    }
 
-        try {
-            setCancelingOrderId(orderId);
-            await axiosSecure.delete(`/orders/${orderId}`);
-            alert("Order canceled successfully!");
-            refetch();
-        } catch (error) {
-            console.error(error);
-            alert("Failed to cancel order!");
-        } finally {
-            setCancelingOrderId(null);
+const handlePayment = async (order) => {
+        const orderInfo = {
+            cost: order.total,
+        orderId: order._id,
+        senderEmail: order.userEmail,
+        orderName: order.product_name,
+        trackingId: order._id
         }
-    };
+        const res = await axiosSecure.post('/payment-checkout-session', orderInfo);
 
-    const handleView = (orderId) => {
-        // You can navigate to a details page or open a modal here
-        alert(`View details for order ${orderId}`);
-    };
+        // console.log(res.data.url);
+        window.location.assign(res.data.url);
+    }
 
-    
-     
 
     return (
         <div>
-            <h2 className="text-2xl font-bold mb-4">My Orders ({orders.length})</h2>
+            <h2>All of my orders: {orders.length}</h2>
             <div className="overflow-x-auto">
-                <table className="table table-zebra w-full">
+                <table className="table table-zebra">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Order ID</th>
-                            <th>Product</th>
-                            <th>Quantity</th>
-                            <th>Status</th>
+                            <th>Name</th>
+                            <th>Total</th>
                             <th>Payment</th>
+                            <th>Tracking Id</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -62,40 +80,24 @@ const MyOrders = () => {
                         {orders.map((order, index) => (
                             <tr key={order._id}>
                                 <th>{index + 1}</th>
-                                <td>{order._id}</td>
                                 <td>{order.product_name}</td>
-                                <td>{order.quantity}</td>
-                                <td><button className="btn btn-sm bg-lime-300 text-black">Paid</button>   
+                                <td>{order.total}</td>
+                                 <td>
+                                    <button onClick={() => handlePayment(order)} className="btn btn-sm text-green-400 text-black">Paid</button>
+
+                                    
                                 </td>
                                 <td>
-                                    <Link to={`/order-track/${order.trackingId}`}> {order.trackingId}</Link>
+                                    <Link to={`/order-track/${order._id}`}>{order._id}</Link>
                                 </td>
-                                <td className="flex gap-2">
-                                    <button
-                                        className="btn btn-sm btn-info"
-                                        onClick={() => handleView(order._id)}
-                                    >
-                                        View
-                                    </button>
-                                    {order.status === 'Pending' && (
-                                        <button
-                                            className="btn btn-sm btn-error"
-                                            onClick={() => handleCancel(order._id)}
-                                            disabled={cancelingOrderId === order._id}
-                                        >
-                                            {cancelingOrderId === order._id ? 'Canceling...' : 'Cancel'}
-                                        </button>
-                                    )}
+                                <td>{order.status}</td>
+                                <td>
+                                    <button className='btn btn-square hover:bg-primary'><FaMagnifyingGlass /></button>
+                                    <button className='btn btn-square hover:bg-primary mx-2'><FiEdit /></button>
+                                    <button onClick={() => handleParcelDelete(order._id)} className='btn btn-square hover:bg-primary'><FaTrashCan /></button>
                                 </td>
                             </tr>
                         ))}
-                        {orders.length === 0 && (
-                            <tr>
-                                <td colSpan="7" className="text-center">
-                                    No orders found.
-                                </td>
-                            </tr>
-                        )}
                     </tbody>
                 </table>
             </div>

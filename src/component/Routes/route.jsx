@@ -20,6 +20,10 @@ import AboutUs from "../AboutUs";
 import Manager from "../pages/Dashboard/Manager/Manager";
 import ApproveManager from "../pages/Dashboard/ApproveManager/ApproveManager";
 import UsersManagement from "../pages/Dashboard/UserManagment/UsersManagement";
+import AdminRoute from "./AdminRoute";
+import AdminAllProducts from "../pages/Dashboard/AdminAllProducts/AdminAllProducts";
+import AdminAllOrders from "../pages/Dashboard/AdminAllProducts/AdminAllOrders";
+import OrderDetails from "../pages/Dashboard/AdminAllProducts/OrderDetails";
 
 
 export const router = createBrowserRouter([
@@ -99,13 +103,27 @@ export const router = createBrowserRouter([
     },
      {
       path: "approve-manager",
-      Component: ApproveManager
+    element: <AdminRoute><ApproveManager/></AdminRoute>
 
     },
      {
       path: "users-management",
-      Component: UsersManagement
+     element: <AdminRoute><UsersManagement/></AdminRoute>
+    },
+    {
+      path:"admin-all-products",
+    element:<AdminRoute><AdminAllProducts/></AdminRoute>
 
+    },
+   {
+      path: "admin-all-orders",
+      element: <AdminRoute><AdminAllOrders /></AdminRoute>,
+      children: [
+        {
+          path: "order/:id",
+          element: <OrderDetails />
+        }
+      ]
     }
    ]
   },
