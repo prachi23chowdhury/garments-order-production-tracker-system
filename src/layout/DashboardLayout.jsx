@@ -1,5 +1,6 @@
    import React from 'react';
 import { FaCreditCard, FaProductHunt, FaServicestack } from 'react-icons/fa';
+import { FaPersonArrowDownToLine } from 'react-icons/fa6';
 import { Link, NavLink, Outlet } from 'react-router';
 
 const DashboardLayout = () => {
@@ -48,6 +49,7 @@ const DashboardLayout = () => {
                       <span className="is-drawer-close:hidden">Payment History</span>
                     </NavLink>
                     </li>
+                   
                     
                     <li>
                      <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Add Product" to="/dashboard/add-product">

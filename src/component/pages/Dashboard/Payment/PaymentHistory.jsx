@@ -13,7 +13,7 @@ const PaymentHistory = () => {
             const res = await axiosSecure.get(`/payment?email=${user.email}`);
             return res.data;
         },
-        enabled: !!user?.email, // User email thaklei query cholbe
+        enabled: !!user?.email, 
     });
 
     if (isLoading) return <div className="p-10 text-center">Loading...</div>;
