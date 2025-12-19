@@ -1,10 +1,12 @@
    import React from 'react';
-import { FaCreditCard, FaJediOrder, FaProductHunt, FaServicestack,  FaUsers } from 'react-icons/fa';
+import { FaCreditCard, FaJediOrder, FaProductHunt, FaServicestack,  FaTractor,  FaUserCheck,  FaUsers } from 'react-icons/fa';
 import { Fa1, FaPerson, } from 'react-icons/fa6';
 import { Link, NavLink, Outlet } from 'react-router';
 import useRole from '../hooks/UseRole';
 import { MdInventory, MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { MdPendingActions } from "react-icons/md";
+import { FaCheckCircle } from "react-icons/fa";
+
 
 const DashboardLayout = () => {
   const {role} = useRole();
@@ -41,14 +43,7 @@ const DashboardLayout = () => {
 
         {/* dashboards links */}
     
-                <li>
-                     <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Orders" to="/dashboard/my-orders">
-                   <FaServicestack/>
-                      <span className="is-drawer-close:hidden">My Orders</span>
-                    </NavLink>
-                    </li>
-
-                    <li>
+                 <li>
                      <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payment History" to="/dashboard/payment-history">
                    <FaCreditCard/>
                       <span className="is-drawer-close:hidden">Payment History</span>
@@ -111,9 +106,33 @@ const DashboardLayout = () => {
                     </NavLink>
                         </li>
                   
+                  <li>
+                     <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Approve Orders" to="/dashboard/approve-orders">
+                        <FaCheckCircle />
+                    <span className="is-drawer-close:hidden">Approve Orders</span>
+                    </NavLink>
+                        </li>
                   </>
                 }
-           
+
+                {
+                  role === "buyer" && <>
+                  <li>
+                     <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Orders" to="/dashboard/my-orders">
+                   <FaServicestack/>
+                      <span className="is-drawer-close:hidden">My Orders</span>
+                    </NavLink>
+                    </li>
+
+               
+                  </>
+                }
+           <li>
+                     <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Profile" to="/dashboard/my-profile">
+                   <FaUserCheck/>
+                      <span className="is-drawer-close:hidden">My Profile</span>
+                    </NavLink>
+                    </li>
         {/* List item */}
         <li>
           <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Settings">

@@ -13,7 +13,7 @@ export default function ManageProduct() {
   const { refetch, data: products = [] } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/products");
+      const res = await axiosSecure.get("/products/manager");
       return res.data;
     },
     enabled: !!user,
@@ -69,13 +69,13 @@ export default function ManageProduct() {
             <tr key={product._id}>
               <td>
                 <img
-                  src={product.product_image?.[0]} // fixed
+                  src={product.product_image?.[0]} // ✅ first image
                   alt={product.product_name}
                   className="w-16 h-16 rounded object-cover"
                 />
               </td>
-              <td>{product.product_name}</td> {/* fixed */}
-              <td>৳{product.price}</td>
+              <td>{product.product_name}</td>
+              <td>{product.price}</td>
               <td>{product.paymentOption}</td>
               <td className="flex gap-2">
                 <Link

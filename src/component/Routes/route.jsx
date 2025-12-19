@@ -26,6 +26,11 @@ import ManagerRoute from "./ManagerRoute";
 import AddProduct from "../pages/Dashboard/Manager/AddProduct";
 import ManageProduct from "../pages/Dashboard/Manager/ManageProduct";
 import PendingOrders from "../pages/Dashboard/Manager/PendingOrders";
+import ApprovedOrders from "../pages/Dashboard/Manager/ApproveOrders";
+import MyProfile from "../pages/Dashboard/MyProfile";
+import TrackOrderPage from "../pages/Dashboard/Buyer/TrackOrderPage";
+import UpdateProduct from "../pages/Dashboard/Manager/UpdateProduct";
+
 
 
 
@@ -98,6 +103,14 @@ export const router = createBrowserRouter([
       path: "pending-orders",
       element:<ManagerRoute><PendingOrders/></ManagerRoute>
     },
+     {
+      path: "approve-orders",
+      element:<ManagerRoute><ApprovedOrders/></ManagerRoute>
+    },
+    {
+      path: "update-product/:id",
+      element: <ManagerRoute><UpdateProduct /></ManagerRoute>
+    },
     {
       path: "payment/:id",
       Component: Payment
@@ -135,7 +148,15 @@ export const router = createBrowserRouter([
           element: <OrderDetails />
         }
       ]
-    }
+    },
+    {
+      path: 'tracking-order/:orderId',
+     element:<TrackOrderPage/>
+    },
+    {
+      path: 'my-profile',
+      Component: MyProfile
+    },
    ]
   },
   
