@@ -3,7 +3,8 @@ import { FaCreditCard, FaJediOrder, FaProductHunt, FaServicestack,  FaUsers } fr
 import { Fa1, FaPerson, } from 'react-icons/fa6';
 import { Link, NavLink, Outlet } from 'react-router';
 import useRole from '../hooks/UseRole';
-import { MdOutlineProductionQuantityLimits } from "react-icons/md";
+import { MdInventory, MdOutlineProductionQuantityLimits } from "react-icons/md";
+import { MdPendingActions } from "react-icons/md";
 
 const DashboardLayout = () => {
   const {role} = useRole();
@@ -87,12 +88,31 @@ const DashboardLayout = () => {
                     </>
                   }
                   
-                    <li>
+                {
+                  role === "manager" && <>
+                  <li>
                      <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Add Product" to="/dashboard/add-product">
                         <FaProductHunt></FaProductHunt>
                     <span className="is-drawer-close:hidden">AddProduct</span>
                     </NavLink>
                         </li>
+
+                    <li>
+                     <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Product" to="/dashboard/manage-product">
+                        <MdInventory/>
+                    <span className="is-drawer-close:hidden">Manage Product</span>
+                    </NavLink>
+                        </li>
+                    
+                    <li>
+                     <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Pending Orders" to="/dashboard/pending-orders">
+                       <MdPendingActions title="Pending" />
+                    <span className="is-drawer-close:hidden">Pending Orders</span>
+                    </NavLink>
+                        </li>
+                  
+                  </>
+                }
            
         {/* List item */}
         <li>

@@ -1,20 +1,21 @@
 import { useState } from "react";
+import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import useAuth from "../../../../hooks/UseAuth";
 
 export default function AddProduct() {
   const axiosSecure = useAxiosSecure();
-  const [images, setImages] = useState([""]); // start with one URL input
+  const { user } = useAuth();
+  const [images, setImages] = useState([""]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
-  // Handle URL change for a specific image input
   const handleImageChange = (index, value) => {
     const newImages = [...images];
     newImages[index] = value;
     setImages(newImages);
-    setImagesPreview(newImages.filter(url => url)); // show only non-empty URLs
+    setImagesPreview(newImages.filter(url => url));
   };
 
-  // Add another image input
   const addImageInput = () => setImages([...images, ""]);
 
   const handleSubmit = async (e) => {
@@ -22,30 +23,46 @@ export default function AddProduct() {
     const form = new FormData(e.target);
 
     const productData = {
-      title: form.get("title"),
-      description: form.get("description"),
+      product_name: form.get("title"),
+      product_description: form.get("description"),
       category: form.get("category"),
-      price: Number(form.get("price")),
-      quantity: Number(form.get("quantity")), 
-      moq: Number(form.get("moq")),
-      demoVideo: form.get("demoVideo"),
+      price: form.get("price"),
+      available_quantity: form.get("available_quantity"),
+      product_image: images[0] || "", // first image URL
+      demoVideo: form.get("demoVideo") || "",
       paymentOption: form.get("paymentOption"),
       showOnHome: form.get("showOnHome") === "on",
-      images: images.filter(url => url), 
+      sellerEmail: user?.email,
       createdAt: new Date(),
+      deliveryStatus: "pending",
+      paymentStatus: "paid",
+      trackingId: `PRCL-${Date.now()}`,
     };
 
     try {
       const result = await axiosSecure.post("/products", productData);
-      if (result.data.insertedId) {
-        alert(" Product Added Successfully!");
+
+      if (result.data.insertedId || result.data.success) {
+        await Swal.fire({
+          icon: "success",
+          title: "Product Added!",
+          text: "Your product has been added successfully.",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+
         e.target.reset();
         setImages([""]);
         setImagesPreview([]);
+        window.location.href = "/dashboard/manage-products";
       }
     } catch (err) {
       console.error(err);
-      alert(" Failed to add product. Try again.");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Failed to add product. Try again!",
+      });
     }
   };
 
@@ -82,8 +99,8 @@ export default function AddProduct() {
           name="category"
           className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
         >
-          <option>Shirt</option>
-          <option>Pant</option>
+          <option>T-shirt</option>
+          <option>Jeans / Pant</option>
           <option>Jacket</option>
           <option>Accessories</option>
         </select>
@@ -104,18 +121,8 @@ export default function AddProduct() {
           <label className="font-medium mb-1">Available Quantity</label>
           <input
             type="number"
-            name="quantity"
+            name="available_quantity"
             placeholder="Quantity"
-            required
-            className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-        </div>
-        <div className="flex flex-col">
-          <label className="font-medium mb-1">Minimum Order Quantity</label>
-          <input
-            type="number"
-            name="moq"
-            placeholder="MOQ"
             required
             className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />

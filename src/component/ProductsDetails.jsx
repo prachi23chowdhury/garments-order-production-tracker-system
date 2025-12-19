@@ -87,7 +87,7 @@ const ProductsDetails = () => {
 
 
         <p>
-  <strong>Payment Options:</strong> Cash on Delivery, bKash, Nagad
+  <strong>Payment Options:</strong> PayFast
 </p>
 
 

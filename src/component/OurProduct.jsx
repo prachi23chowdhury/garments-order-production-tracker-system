@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
+import useAuth from "../hooks/UseAuth";
+import { useLocation, useNavigate } from "react-router";
 
 export default function OurProduct({ products: initialProducts = [] }) {
   const [products, setProducts] = useState(initialProducts);
+ const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     fetch("http://localhost:3000/our-products")
@@ -9,6 +14,15 @@ export default function OurProduct({ products: initialProducts = [] }) {
       .then((data) => setProducts(data))
       .catch((err) => console.error(err));
   }, []);
+
+
+   const handleDetails = (id) => {
+    if (!user) {
+      navigate("/login", { state: { from: location.pathname } });
+      return;
+    }
+    navigate(`/all-products/${id}`);
+  };
 
   return (
     <div className="px-6 py-10 max-w-7xl mx-auto">
@@ -50,11 +64,13 @@ export default function OurProduct({ products: initialProducts = [] }) {
             </div>
 
             {/* Buttons */}
-            <div className="mt-5 flex gap-3">
-              <button className="flex-1 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition">
-                 Details
+           <div className="mt-5 flex gap-3">
+              <button
+                onClick={() => handleDetails(p._id)}
+                className="flex-1 py-2 bg-indigo-600 text-white font-medium rounded-lg text-center hover:bg-indigo-700 transition"
+              >
+                Details
               </button>
-              
             </div>
           </div>
         ))}

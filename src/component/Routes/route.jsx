@@ -10,8 +10,6 @@ import BookingModal from "../BookingModal";
 import PrivateRoute from "../Routes/PrivateRoute"
 import DashboardLayout from "../../layout/DashboardLayout";
 import MyOrders from "../pages/Dashboard/MyOrders";
-import ManagerRoute from "./ManageRoute";
-import AddProduct from "../pages/Dashboard/Manager/AddProduct";
 import Payment from "../pages/Dashboard/Payment/Payment";
 import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
 import PaymentHistory from "../pages/Dashboard/Payment/PaymentHistory";
@@ -24,6 +22,11 @@ import AdminRoute from "./AdminRoute";
 import AdminAllProducts from "../pages/Dashboard/AdminAllProducts/AdminAllProducts";
 import AdminAllOrders from "../pages/Dashboard/AdminAllProducts/AdminAllOrders";
 import OrderDetails from "../pages/Dashboard/AdminAllProducts/OrderDetails";
+import ManagerRoute from "./ManagerRoute";
+import AddProduct from "../pages/Dashboard/Manager/AddProduct";
+import ManageProduct from "../pages/Dashboard/Manager/ManageProduct";
+import PendingOrders from "../pages/Dashboard/Manager/PendingOrders";
+
 
 
 export const router = createBrowserRouter([
@@ -86,6 +89,14 @@ export const router = createBrowserRouter([
     {
       path: "add-product",
       element:<ManagerRoute><AddProduct></AddProduct></ManagerRoute>
+    },
+    {
+      path: "manage-product",
+      element:<ManagerRoute><ManageProduct/></ManagerRoute>
+    },
+    {
+      path: "pending-orders",
+      element:<ManagerRoute><PendingOrders/></ManagerRoute>
     },
     {
       path: "payment/:id",

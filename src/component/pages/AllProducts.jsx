@@ -8,7 +8,7 @@ export default function AllProducts({ products: initialProducts = [] }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // 👉 Correct API (all products)
+ 
   useEffect(() => {
     fetch("http://localhost:3000/products")
       .then(res => res.json())
@@ -16,7 +16,7 @@ export default function AllProducts({ products: initialProducts = [] }) {
       .catch(err => console.error(err));
   }, []);
 
-  // 👉 Navigate to details page
+  
   const handleDetails = (id) => {
     if (!user) {
       navigate("/login", { state: { from: location.pathname } });
