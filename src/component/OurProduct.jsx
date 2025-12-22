@@ -9,7 +9,7 @@ export default function OurProduct({ products: initialProducts = [] }) {
   const location = useLocation();
 
   useEffect(() => {
-    fetch("http://localhost:3000/our-products")
+    fetch("https://garments-order-production-tracker-s-xi.vercel.app/our-products")
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch((err) => console.error(err));

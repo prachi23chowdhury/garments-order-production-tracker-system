@@ -1,36 +1,48 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router';
-import Swal from 'sweetalert2';
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router";
+import Swal from "sweetalert2";
+import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 
-import useAuth from '../../../hooks/UseAuth';
-import SideImage from '../../../../public/assest/illustration-tailor-sewing-clothes_207579-2039.avif';
-import SocialLogin from './SocialLogin';
+import SideImage from "../../../../public/assest/illustration-tailor-sewing-clothes_207579-2039.avif";
+import SocialLogin from "./SocialLogin";
 
 export default function Login() {
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
-  const { signInUser } = useAuth();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
+  const auth = getAuth();
+
   const handleLogin = async (data) => {
     try {
-      const result = await signInUser(data.email, data.password);
-      console.log(result.user);
+      //  FIREBASE LOGIN
+      const result = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+
+      const user = result.user;
+
+      // FIREBASE TOKEN
+      const token = await user.getIdToken(true);
+      console.log(" FIREBASE TOKEN:", token);
 
       Swal.fire({
-        icon: 'success',
-        title: 'Login Successful',
+        icon: "success",
+        title: "Login Successful",
         timer: 1500,
-        showConfirmButton: false
+        showConfirmButton: false,
       });
 
-      navigate('/');
+      navigate("/");
     } catch (error) {
+      console.error(error);
       Swal.fire({
-        icon: 'error',
-        title: 'Login Failed',
-        text: 'Email or Password does not match'
+        icon: "error",
+        title: "Login Failed",
+        text: error.message,
       });
     }
   };
@@ -41,11 +53,7 @@ export default function Login() {
 
         {/* IMAGE */}
         <div className="w-full md:w-1/2">
-          <img
-            src={SideImage}
-            alt="Login"
-            className="w-full h-48 md:h-full object-cover"
-          />
+          <img src={SideImage} alt="Login" className="w-full h-48 md:h-full object-cover" />
         </div>
 
         {/* FORM */}
@@ -55,64 +63,46 @@ export default function Login() {
 
             <form onSubmit={handleSubmit(handleLogin)} className="space-y-5">
 
-              {/* Email */}
               <div>
-                <label className="block mb-1">Email</label>
+                <label>Email</label>
                 <input
                   type="email"
-                  {...register('email', { required: true })}
-                  placeholder="Enter email"
+                  {...register("email", { required: true })}
                   className="w-full px-4 py-3 border rounded-lg"
                 />
-                {errors.email && <p className="text-red-500 text-sm">Email required</p>}
               </div>
 
-              {/* Password */}
               <div>
-                <label className="block mb-1">Password</label>
+                <label>Password</label>
                 <div className="relative">
                   <input
-                    type={showPassword ? 'text' : 'password'}
-                    {...register('password', { required: true })}
-                    placeholder="Enter password"
-                    className="w-full px-4 py-3 border rounded-lg pr-14"
+                    type={showPassword ? "text" : "password"}
+                    {...register("password", { required: true })}
+                    className="w-full px-4 py-3 border rounded-lg"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-3 text-sm"
                   >
-                    {showPassword ? 'Hide' : 'Show'}
+                    {showPassword ? "Hide" : "Show"}
                   </button>
                 </div>
-                {errors.password && <p className="text-red-500 text-sm">Password required</p>}
               </div>
 
-              {/* Forgot */}
-              <div className="text-right">
-                <Link to="/forgot-password" className="text-indigo-600 text-sm">
-                  Forgot password?
-                </Link>
-              </div>
-
-              {/* Login Button */}
               <button
                 type="submit"
                 disabled={isSubmitting}
                 className="w-full py-3 bg-indigo-600 text-white rounded-lg"
               >
-                {isSubmitting ? 'Logging in...' : 'Login'}
+                {isSubmitting ? "Logging in..." : "Login"}
               </button>
 
-              {/* Social Login */}
               <SocialLogin />
 
-              {/* Register */}
               <p className="text-center text-sm">
                 Don’t have an account?
-                <Link to="/register" className="text-indigo-600 ml-1 font-semibold">
-                  Register
-                </Link>
+                <Link to="/register" className="text-indigo-600 ml-1">Register</Link>
               </p>
 
             </form>

@@ -13,7 +13,7 @@ const CustomerReview = ({review}) => {
       <div className="border-t-2 border-dashed border-gray-300 my-4"></div>
 
       <div className="flex items-center gap-4">
-        {/* Replace initials with an <img /> if you have an avatar */}
+       
         <div className="w-11 h-11 rounded-full bg-teal-800 flex items-center justify-center text-white text-sm font-semibold">
         <img src={user_photoURL} alt="" />
         </div>

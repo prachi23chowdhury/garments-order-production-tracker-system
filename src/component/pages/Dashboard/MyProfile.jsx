@@ -1,47 +1,101 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useNavigate } from "react-router";
 import useAuth from "../../../hooks/UseAuth";
 
-
 const MyProfile = () => {
   const { user, logOut } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
 
+  const [dbUser, setDbUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!user?.email) return;
+
+    const fetchUser = async () => {
+      try {
+        const res = await axiosSecure.get(
+          `/users/email/${encodeURIComponent(user.email)}`
+        );
+        setDbUser(res.data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [user, axiosSecure]);
+
   const handleLogout = async () => {
-    try {
-      await logOut();
-      navigate("/login"); // Redirect to login after logout
-    } catch (error) {
-      console.error("Logout failed:", error);
-      alert("Failed to logout. Try again.");
-    }
+    await logOut();
+    navigate("/login");
   };
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-[60vh]">
+        <p className="text-lg text-gray-600">Loading profile...</p>
+      </div>
+    );
+  }
+
+  if (!dbUser) {
+    return (
+      <div className="flex justify-center items-center min-h-[60vh]">
+        <p className="text-lg text-red-500">User data not found.</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow">
-      <h1 className="text-2xl font-bold mb-4 text-center">My Profile</h1>
+    <div className="flex justify-center mt-8 px-4">
+      <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-6">
+        {/* Profile Image */}
+        <div className="flex justify-center mb-4">
+          <img
+            src={dbUser.photoURL || user?.photoURL || "https://i.ibb.co/2d0QKQv/user.png"}
+            alt="Profile"
+            className="w-28 h-28 rounded-full border-4 border-primary object-cover"
+          />
+        </div>
 
-      {/* Profile Image */}
-      <div className="flex justify-center mb-4">
-        <img
-          src={user?.photoURL || "https://via.placeholder.com/100"}
-          alt="Profile"
-          className="w-24 h-24 rounded-full object-cover border-2 border-gray-200"
-        />
+        <h2 className="text-2xl font-bold text-center mb-6">My Profile</h2>
+
+        <div className="space-y-3 text-sm">
+          <div className="flex justify-between">
+            <span className="font-semibold text-gray-600">Name</span>
+            <span>{dbUser.name || "N/A"}</span>
+          </div>
+
+          <div className="flex justify-between">
+            <span className="font-semibold text-gray-600">Email</span>
+            <span>{dbUser.email}</span>
+          </div>
+
+          <div className="flex justify-between">
+            <span className="font-semibold text-gray-600">Role</span>
+            <span className="capitalize">{dbUser.role || "user"}</span>
+          </div>
+
+          <div className="flex justify-between">
+            <span className="font-semibold text-gray-600">Feedback</span>
+            <span>{dbUser.feedback || "No feedback"}</span>
+          </div>
+        </div>
+
+        <div className="mt-6 text-center">
+          <button
+            onClick={handleLogout}
+            className="w-full py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+          >
+            Logout
+          </button>
+        </div>
       </div>
-
-      <div className="space-y-2 text-center">
-        <p><strong>Name:</strong> {user?.displayName || "N/A"}</p>
-        <p><strong>Email:</strong> {user?.email || "N/A"}</p>
-        
-      </div>
-
-      <button
-        onClick={handleLogout}
-        className="mt-6 w-full bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition"
-      >
-        Logout
-      </button>
     </div>
   );
 };

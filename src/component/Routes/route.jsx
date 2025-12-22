@@ -14,7 +14,6 @@ import Payment from "../pages/Dashboard/Payment/Payment";
 import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
 import PaymentHistory from "../pages/Dashboard/Payment/PaymentHistory";
 import ContactUs from "../ContactUs";
-import AboutUs from "../AboutUs";
 import Manager from "../pages/Dashboard/Manager/Manager";
 import ApproveManager from "../pages/Dashboard/ApproveManager/ApproveManager";
 import UsersManagement from "../pages/Dashboard/UserManagment/UsersManagement";
@@ -27,9 +26,12 @@ import AddProduct from "../pages/Dashboard/Manager/AddProduct";
 import ManageProduct from "../pages/Dashboard/Manager/ManageProduct";
 import PendingOrders from "../pages/Dashboard/Manager/PendingOrders";
 import ApprovedOrders from "../pages/Dashboard/Manager/ApproveOrders";
-import MyProfile from "../pages/Dashboard/MyProfile";
+
 import TrackOrderPage from "../pages/Dashboard/Buyer/TrackOrderPage";
 import UpdateProduct from "../pages/Dashboard/Manager/UpdateProduct";
+import MyProfile from "../pages/Dashboard/MyProfile";
+
+
 
 
 
@@ -59,10 +61,7 @@ export const router = createBrowserRouter([
           path: "contact",
           Component: ContactUs
         },
-        {
-          path: "about",
-          Component: AboutUs
-        },
+        
         {
           path: "manager-application",
           Component: Manager

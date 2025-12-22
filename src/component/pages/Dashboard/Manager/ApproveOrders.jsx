@@ -11,12 +11,13 @@ export default function ApprovedOrders() {
   const [trackingOrderId, setTrackingOrderId] = useState(null);
 
   const { data: orders = [], isLoading, refetch } = useQuery({
-    queryKey: ["approved-orders"],
-    queryFn: async () => {
-      const res = await axiosSecure.get("/orders?status=Approved");
-      return res.data;
-    },
-  });
+  queryKey: ["approved-orders"],
+  queryFn: async () => {
+    const res = await axiosSecure.get("/orders/all?status=Approved");
+    return res.data;
+  },
+});
+
 
   if (isLoading) {
     return <p className="text-center mt-10">Loading approved orders...</p>;

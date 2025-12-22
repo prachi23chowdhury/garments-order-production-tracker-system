@@ -3,7 +3,6 @@ import { useParams, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
-
 export default function UpdateProduct() {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
@@ -14,33 +13,57 @@ export default function UpdateProduct() {
     category: "",
     price: "",
     available_quantity: "",
-    product_image: [],
     paymentOption: "",
+    product_image: "",
   });
-  const [image, setImage] = useState("");
 
-  // Load product info
+  // Load product
   useEffect(() => {
-    axiosSecure.get(`/products/${id}`)
-      .then(res => setProduct(res.data))
-      .catch(err => console.error(err));
+    axiosSecure
+      .get(`/products/${id}`)
+      .then((res) => {
+        const data = res.data;
+        setProduct({
+          product_name: data.product_name || "",
+          category: data.category || "",
+          price: data.price || "",
+          available_quantity: data.available_quantity || "",
+          paymentOption: data.paymentOption || "",
+          product_image: data.product_image || "",
+        });
+      })
+      .catch((err) => console.error(err));
   }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProduct(prev => ({ ...prev, [name]: value }));
+    setProduct((prev) => ({
+      ...prev,
+      [name]:
+        name === "price" || name === "available_quantity"
+          ? Number(value)
+          : value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const updatedProduct = { ...product };
-    if (image) updatedProduct.product_image = [image]; // single image for now
-
     try {
-      await axiosSecure.put(`/products/${id}`, updatedProduct);
-      Swal.fire("Success", "Product updated successfully", "success");
-      navigate("/dashboard/manage-product");
+      await axiosSecure.put(`/products/${id}`, product);
+
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "success",
+        title: "Product updated successfully",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+      });
+
+      setTimeout(() => {
+        navigate("/dashboard/manage-product");
+      }, 2000);
     } catch (err) {
       console.error(err);
       Swal.fire("Error", "Failed to update product", "error");
@@ -51,7 +74,6 @@ export default function UpdateProduct() {
     <div className="max-w-3xl mx-auto p-6 bg-white rounded shadow mt-10">
       <h2 className="text-2xl font-bold mb-6">Update Product</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-
         <input
           type="text"
           name="product_name"
@@ -103,9 +125,10 @@ export default function UpdateProduct() {
 
         <input
           type="text"
+          name="product_image"
           placeholder="Product Image URL"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
+          value={product.product_image}
+          onChange={handleChange}
           className="input input-bordered w-full"
         />
 

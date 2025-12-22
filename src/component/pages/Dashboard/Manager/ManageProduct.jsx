@@ -69,7 +69,7 @@ export default function ManageProduct() {
             <tr key={product._id}>
               <td>
                 <img
-                  src={product.product_image?.[0]} // ✅ first image
+                  src={product.product_image?.[0]} 
                   alt={product.product_name}
                   className="w-16 h-16 rounded object-cover"
                 />

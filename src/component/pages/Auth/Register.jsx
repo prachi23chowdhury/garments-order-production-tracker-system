@@ -40,12 +40,12 @@ export default function Register() {
         name: data.name,
         email: data.email,
         photoURL,
-        role: data.role,  // <-- send exactly the selected role
+        role: data.role,  
         status: "pending"
       };
       await axiosSecure.post("/users", userInfo);
 
-      // Show success alert and navigate
+     
       Swal.fire({
         title: "Registration Successful",
         text: "Your account was created. Status: pending",
@@ -53,7 +53,7 @@ export default function Register() {
         timer: 2000,
         showConfirmButton: false
       }).then(() => {
-        navigate("/"); // Redirect to home page
+        navigate("/"); 
       });
 
     } catch (error) {
@@ -170,7 +170,7 @@ export default function Register() {
             {/* Social Login */}
             <SocialLogin />
 
-            {/* Already have account */}
+           
             <p className="text-center text-sm text-gray-500">
               Already have an account?
               <span className="text-indigo-600 font-bold ml-1">

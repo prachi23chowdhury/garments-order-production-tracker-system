@@ -11,15 +11,15 @@ export default function ManagerRoute({ children }) {
     queryKey: ["role", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
-      const res = await axiosSecure.get(`/users/${user.email}/role`); // backend route for role
+      const res = await axiosSecure.get(`/users/${user.email}/role`); 
       return res.data;
     },
   });
 
-  // 🔹 Wait for both auth & query to finish
+
   if (loading || isLoading) return <p>Loading...</p>;
 
-  // 🔹 Only check backend role
+  
   if (!dbUser || dbUser.role?.toLowerCase() !== "manager") {
     return <Navigate to="/forbidden" />;
   }

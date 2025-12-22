@@ -17,7 +17,7 @@ const Payment = () => {
     queryKey: ['product', id],
     enabled: !!id,
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:3000/products/${id}`);
+      const res = await axios.get(`https://garments-order-production-tracker-s-xi.vercel.app/products/${id}`);
       return res.data;
     }
   });

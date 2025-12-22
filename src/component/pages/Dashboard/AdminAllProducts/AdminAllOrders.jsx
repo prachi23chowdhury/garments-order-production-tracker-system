@@ -5,15 +5,14 @@ import OrderDetails from "./OrderDetails";
 
 const AdminAllOrders = () => {
   const axiosSecure = useAxiosSecure();
-  const [statusFilter, setStatusFilter] = useState("Pending"); // default pending
+  const [statusFilter, setStatusFilter] = useState("Pending"); 
+  
   const [selectedOrderId, setSelectedOrderId] = useState(null);
 
   const { data: orders = [], isLoading } = useQuery({
     queryKey: ["allOrders", statusFilter],
     queryFn: async () => {
-      const res = await axiosSecure.get(
-        `/orders${statusFilter ? `?status=${statusFilter}` : ""}`
-      );
+      const res = await axiosSecure.get(`/admin/orders?status=${statusFilter}`)
       return res.data;
     },
   });

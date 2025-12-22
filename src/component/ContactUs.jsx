@@ -6,7 +6,7 @@ const ContactUs = () => {
     <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
       <div className="bg-white shadow-lg rounded-lg max-w-4xl w-full grid md:grid-cols-2">
         
-        {/* Left Side - Info */}
+      
         <div className="bg-gray-900 text-white p-8 rounded-t-lg md:rounded-l-lg md:rounded-tr-none">
           <h2 className="text-3xl font-bold mb-4">Contact Us</h2>
           <p className="mb-6 text-blue-100">

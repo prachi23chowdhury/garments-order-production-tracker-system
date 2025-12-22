@@ -35,7 +35,7 @@ export default function HeroSection() {
 </AnimatePresence>
 
 
-      {/* Overlay for better contrast */}
+     
       <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent dark:from-black/70" />
 
       <div className="relative max-w-7xl mx-auto px-6 py-24 md:py-32 lg:py-40">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { FaEdit, FaTrash } from "react-icons/fa";
@@ -8,8 +8,9 @@ import UpdateProductModal from "./UpdateProductModal";
 const AdminAllProducts = () => {
   const axiosSecure = useAxiosSecure();
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [products, setProducts] = useState([]);
 
-  const { data: products = [], refetch, isLoading } = useQuery({
+  const { data, refetch, isLoading } = useQuery({
     queryKey: ["all-products"],
     queryFn: async () => {
       const res = await axiosSecure.get("/products");
@@ -17,34 +18,66 @@ const AdminAllProducts = () => {
     },
   });
 
+  // Sync query data with local state
+  useEffect(() => {
+    if (data) setProducts(data);
+  }, [data]);
+
   // Delete Product
-  const handleDelete = (product) => {
-    Swal.fire({
+  const handleDelete = async (product) => {
+    const result = await Swal.fire({
       title: "Are you sure?",
-      text: "This product will be deleted permanently!",
+      text: `Do you want to permanently delete "${product.product_name}"?`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Yes, Delete",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        await axiosSecure.delete(`/products/${product._id}`);
-        refetch();
-        Swal.fire("Deleted!", "Product has been deleted.", "success");
-      }
     });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      await axiosSecure.delete(`/products/${product._id}`);
+      setProducts((prev) => prev.filter((p) => p._id !== product._id));
+      Swal.fire("Deleted!", "Product has been deleted.", "success");
+    } catch (err) {
+      Swal.fire("Error!", "Failed to delete product.", "error");
+    }
   };
 
-  // Show on Home toggle
+  // Toggle Show on Home
   const handleToggleHome = async (product) => {
-    await axiosSecure.patch(`/products/${product._id}`, {
+  try {
+    const res = await axiosSecure.patch(`/products/${product._id}/show-home`, {
       showOnHome: !product.showOnHome,
     });
-    refetch();
-  };
 
-  if (isLoading) {
-    return <p className="text-center mt-10">Loading products...</p>;
+    // Show different alert based on new state
+    if (res.data.showOnHome) {
+      Swal.fire({
+        icon: "success",
+        title: `Product "${product.product_name}" is now visible on Home`,
+        timer: 1200,
+        showConfirmButton: false,
+      });
+    } else {
+      Swal.fire({
+        icon: "info",
+        title: `Product "${product.product_name}" removed from Home`,
+        timer: 1200,
+        showConfirmButton: false,
+      });
+    }
+
+  
+    setProducts((prev) =>
+      prev.map((p) =>
+        p._id === product._id ? { ...p, showOnHome: res.data.showOnHome } : p
+      )
+    );
+  } catch (err) {
+    Swal.fire("Error!", "Failed to update product visibility.", "error");
   }
+};
 
   return (
     <div className="p-6">
@@ -74,12 +107,10 @@ const AdminAllProducts = () => {
                     className="w-12 h-12 rounded"
                   />
                 </td>
-
                 <td>{product.product_name}</td>
                 <td>${product.price}</td>
                 <td>{product.category}</td>
                 <td>{product.createdBy || "N/A"}</td>
-
                 <td>
                   <input
                     type="checkbox"
@@ -88,15 +119,13 @@ const AdminAllProducts = () => {
                     onChange={() => handleToggleHome(product)}
                   />
                 </td>
-
-                <td className="flex gap-3">
+                <td className="flex gap-2">
                   <button
                     onClick={() => setSelectedProduct(product)}
                     className="btn btn-sm btn-info"
                   >
                     <FaEdit />
                   </button>
-
                   <button
                     onClick={() => handleDelete(product)}
                     className="btn btn-sm btn-error"
@@ -110,7 +139,6 @@ const AdminAllProducts = () => {
         </table>
       </div>
 
-      {/* Update Modal */}
       {selectedProduct && (
         <UpdateProductModal
           product={selectedProduct}

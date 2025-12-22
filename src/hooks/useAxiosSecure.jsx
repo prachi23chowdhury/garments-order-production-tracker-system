@@ -4,47 +4,46 @@ import useAuth from './UseAuth';
 import { useNavigate } from 'react-router';
 
 const axiosSecure = axios.create({
-    baseURL: 'http://localhost:3000'
+  baseURL: 'https://garments-order-production-tracker-s-xi.vercel.app',
 });
 
 const useAxiosSecure = () => {
-    const { user, logOut } = useAuth();
-    const navigate = useNavigate();
+  const { user, logOut } = useAuth();
+  const navigate = useNavigate();
 
-    useEffect(() => {
+  useEffect(() => {
+    const reqInterceptor = axiosSecure.interceptors.request.use(
+      async (config) => {
+        if (user) {
+          const idToken = await user.getIdToken();
+console.log(" FRONTEND TOKEN:", idToken);
+config.headers.authorization = `Bearer ${idToken}`;
 
-        const reqInterceptor = axiosSecure.interceptors.request.use(
-            (config) => {
-                if (user?.accessToken) {
-                    config.headers.authorization = `Bearer ${user.accessToken}`;
-                }
-                return config;
-            },
-            (error) => Promise.reject(error)
-        );
+        }
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
 
-        const resInterceptor = axiosSecure.interceptors.response.use(
-            (response) => response,
-            async (error) => {
-                const statusCode = error.response?.status;
+    const resInterceptor = axiosSecure.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        const statusCode = error.response?.status;
+        if (statusCode === 401 || statusCode === 403) {
+          await logOut();
+          navigate('/login');
+        }
+        return Promise.reject(error);
+      }
+    );
 
-                if (statusCode === 401 || statusCode === 403) {
-                    await logOut();
-                    navigate('/login');
-                }
+    return () => {
+      axiosSecure.interceptors.request.eject(reqInterceptor);
+      axiosSecure.interceptors.response.eject(resInterceptor);
+    };
+  }, [user, logOut, navigate]);
 
-                return Promise.reject(error);
-            }
-        );
-
-        return () => {
-            axiosSecure.interceptors.request.eject(reqInterceptor);
-            axiosSecure.interceptors.response.eject(resInterceptor);
-        };
-
-    }, [user, logOut, navigate]);
-
-    return axiosSecure;
+  return axiosSecure;
 };
 
 export default useAxiosSecure;

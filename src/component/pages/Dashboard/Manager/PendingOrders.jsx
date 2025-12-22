@@ -4,9 +4,9 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import OrderDetailsPage from "./OrderDetailsPage";
 
-export default function PendingOrders() {
+export default function Orders() {
   const axiosSecure = useAxiosSecure();
-  const [statusFilter, setStatusFilter] = useState("Pending");
+  const [statusFilter, setStatusFilter] = useState(""); 
   const [selectedOrderId, setSelectedOrderId] = useState(null);
 
   const {
@@ -17,7 +17,7 @@ export default function PendingOrders() {
     queryKey: ["orders", statusFilter],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `/orders${statusFilter ? `?status=${statusFilter}` : ""}`
+        `/orders/all${statusFilter ? `?status=${statusFilter}` : ""}`
       );
       return res.data;
     },
@@ -44,7 +44,7 @@ export default function PendingOrders() {
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Pending Orders</h2>
+      <h2 className="text-2xl font-bold mb-4">Orders</h2>
 
       {/* Status Filter */}
       <div className="mb-4 flex items-center gap-3">
@@ -54,14 +54,13 @@ export default function PendingOrders() {
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
         >
-          <option value="Pending">Pending</option>
+          <option value="">All</option>
           <option value="Approved">Approved</option>
           <option value="Rejected">Rejected</option>
-          <option value="">All</option>
         </select>
       </div>
 
-      {/* Empty State */}
+    
       {!isLoading && orders.length === 0 && (
         <p className="text-center text-gray-500">No orders found</p>
       )}
@@ -104,11 +103,11 @@ export default function PendingOrders() {
                     <span
                       className={`px-2 py-1 rounded text-white text-sm
                         ${
-                          order.status === "Pending"
-                            ? "bg-yellow-500"
-                            : order.status === "Approved"
+                          order.status === "Approved"
                             ? "bg-green-600"
-                            : "bg-red-500"
+                            : order.status === "Rejected"
+                            ? "bg-red-500"
+                            : "bg-gray-500"
                         }`}
                     >
                       {order.status}
@@ -131,14 +130,6 @@ export default function PendingOrders() {
                       className="bg-red-500 disabled:bg-gray-300 text-white px-2 py-1 rounded"
                     >
                       Reject
-                    </button>
-
-                    <button
-                      onClick={() => updateStatus(order._id, "Pending")}
-                      disabled={order.status === "Pending"}
-                      className="bg-yellow-500 disabled:bg-gray-300 text-white px-2 py-1 rounded"
-                    >
-                      Pending
                     </button>
 
                     <button

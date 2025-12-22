@@ -1,6 +1,6 @@
 import React from "react";
-import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube} from "react-icons/fa"; // use FaTwitter instead of FaXTwitter
-import logo from "../../public/assest/thread.jpg"; // ensure path is correct
+import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube} from "react-icons/fa"; 
+import logo from "../../public/assest/thread.jpg"; 
 import { FaXTwitter } from "react-icons/fa6";
 
 const Footer = () => {
@@ -18,7 +18,7 @@ const Footer = () => {
           </p>
         </div>
 
-        {/* USEFUL LINKS */}
+        {/*  LINKS */}
         <div>
           <h3 className="text-xl font-semibold mb-3 text-white">Useful Links</h3>
           <ul className="space-y-2 text-white">
@@ -40,7 +40,7 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* CONTACT INFO + SOCIAL ICONS */}
+        
         <div>
           <h3 className="text-xl font-semibold mb-3 text-white">Contact Info</h3>
           <ul className="space-y-2 text-white mb-4">

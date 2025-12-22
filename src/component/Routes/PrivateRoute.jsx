@@ -1,7 +1,6 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router';
 import useAuth from '../../hooks/UseAuth';
-import { PacmanLoader } from 'react-spinners';
 import Loading from '../Loading';
 
 const PrivateRoute = ({children}) => {

@@ -1,8 +1,7 @@
-import React from "react";
+import React from 'react';
 import logo from "../../public/assest/thread.jpg";
-import { Link, NavLink, useNavigate } from "react-router";
-import useAuth from "../hooks/UseAuth";
-
+import { Link, NavLink, useNavigate } from 'react-router';
+import useAuth from '../hooks/UseAuth';
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -22,22 +21,26 @@ const Navbar = () => {
 
       {/* LEFT */}
       <div className="navbar-start flex items-center gap-2">
-        <img src={logo} alt="Logo" className="h-14 w-14 rounded-full" />
+        <img src={logo} alt="Logo" className="h-16 w-16 rounded-full" />
         <Link to="/" className="text-3xl font-bold">
           StitchSync
         </Link>
       </div>
 
-      {/* CENTER (DESKTOP) */}
+      
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 gap-5 text-lg font-semibold">
-          <li><Link to="/" className="hover:text-blue-500">Home</Link></li>
-          <li><Link to="/all-products" className="hover:text-blue-500">All Products</Link></li>
-          <li><Link to="/manager-application" className="hover:text-blue-500">Manager Application</Link></li>
-          <li><Link to="/about" className="hover:text-blue-500">About Us</Link></li>
-          <li><Link to="/contact" className="hover:text-blue-500">Contact</Link></li>
+        <ul className="menu menu-horizontal px-1 text-[16px] font-medium gap-5">
+          <li><Link to="/" className="font-bold text-xl text-gray-500 hover:text-blue-500">Home</Link></li>
+          <li><Link to="/all-products" className="font-bold text-xl text-gray-500 hover:text-blue-500">All-Product</Link></li>
+          <li><Link to="/manager-application" className="font-bold text-xl text-gray-500 hover:text-blue-500">Manager-Application</Link></li>
+          <li><Link to="/contact" className="font-bold text-xl text-gray-500 hover:text-blue-500">Contact</Link></li>
+
           {user && (
-            <li><Link to="/dashboard" className="hover:text-blue-500">Dashboard</Link></li>
+            <li>
+              <Link to="/dashboard" className="font-bold text-xl text-gray-500 hover:text-blue-500">
+                DashBoard
+              </Link>
+            </li>
           )}
         </ul>
       </div>
@@ -49,7 +52,7 @@ const Navbar = () => {
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
                 <img
-                  src={user?.photoURL || "https://i.ibb.co/2FsfXqM/user.png"}
+                  src={user?.photoURL || "https://via.placeholder.com/100"}
                   alt="profile"
                 />
               </div>
@@ -60,7 +63,7 @@ const Navbar = () => {
               className="menu menu-sm dropdown-content mt-3 z-[10] p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <Link to="/dashboard/profile">My Profile</Link>
+                <Link to="/dashboard/my-profile">My Profile</Link>
               </li>
               <li>
                 <button onClick={handleLogOut} className="text-red-500">
@@ -71,8 +74,8 @@ const Navbar = () => {
           </div>
         ) : (
           <div className="flex gap-2">
-            <NavLink to="/login" className="btn btn-sm btn-outline">Login</NavLink>
-            <NavLink to="/register" className="btn btn-sm btn-primary">Register</NavLink>
+            <NavLink to="/login"><span className="box">Login</span></NavLink>
+            <NavLink to="/register"><span className="box">Register</span></NavLink>
           </div>
         )}
       </div>
@@ -80,23 +83,27 @@ const Navbar = () => {
       {/* MOBILE MENU */}
       <div className="navbar-end lg:hidden">
         <div className="dropdown dropdown-end">
-          <label tabIndex={0} className="btn btn-ghost">
+          <div tabIndex={0} role="button" className="btn btn-ghost">
             ☰
-          </label>
+          </div>
 
           <ul
             tabIndex={0}
             className="menu menu-sm dropdown-content mt-3 z-[10] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li><Link to="/">Home</Link></li>
-            <li><Link to="/all-products">All Products</Link></li>
-            <li><Link to="/manager-application">Manager Application</Link></li>
-            <li><Link to="/about">About</Link></li>
+            <li><Link to="/all-products">All-Product</Link></li>
+            <li><Link to="/manager-application">Manager-Application</Link></li>
             <li><Link to="/contact">Contact</Link></li>
 
             {user && (
               <>
-                <li><Link to="/dashboard/profile">My Profile</Link></li>
+                <li>
+                  <Link to="/dashboard">Dashboard</Link>
+                </li>
+                <li>
+                  <Link to="/dashboard/my-profile">My Profile</Link>
+                </li>
                 <li>
                   <button onClick={handleLogOut} className="text-red-500">
                     Logout
@@ -114,6 +121,7 @@ const Navbar = () => {
           </ul>
         </div>
       </div>
+
     </div>
   );
 };

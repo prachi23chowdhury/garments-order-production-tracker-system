@@ -13,7 +13,7 @@ export default function AddProduct() {
     const newImages = [...images];
     newImages[index] = value;
     setImages(newImages);
-    setImagesPreview(newImages.filter(url => url));
+    setImagesPreview(newImages.filter((url) => url));
   };
 
   const addImageInput = () => setImages([...images, ""]);
@@ -28,7 +28,7 @@ export default function AddProduct() {
       category: form.get("category"),
       price: form.get("price"),
       available_quantity: form.get("available_quantity"),
-      product_image: images[0] || "", // first image URL
+      product_image: images[0] || "",
       demoVideo: form.get("demoVideo") || "",
       paymentOption: form.get("paymentOption"),
       showOnHome: form.get("showOnHome") === "on",
@@ -46,15 +46,18 @@ export default function AddProduct() {
         await Swal.fire({
           icon: "success",
           title: "Product Added!",
-          text: "Your product has been added successfully.",
-          timer: 2000,
+          text: "Redirecting to Dashboard...",
+          timer: 1500,
           showConfirmButton: false,
         });
 
+       
         e.target.reset();
         setImages([""]);
         setImagesPreview([]);
-        window.location.href = "/dashboard/manage-products";
+
+        
+        window.location.href = "/dashboard/manage-product";
       }
     } catch (err) {
       console.error(err);
